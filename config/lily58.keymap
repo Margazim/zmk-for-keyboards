@@ -9,13 +9,13 @@
 #include <dt-bindings/zmk/rgb.h>
 #include <dt-bindings/zmk/pointing.h>
 
-/* mmv: sofort reagieren (kein Ramp/Accel), damit Encoder-Taps sichtbar werden */
+/* mmv sofort (keine Beschleunigungsrampe), damit Encoder-Taps sichtbar werden */
 &mmv {
     time-to-max-speed-ms = <0>;
     acceleration-exponent = <0>;
 };
 
-/ {
+ / {
     conditional_layers {
         compatible = "zmk,conditional-layers";
         adjust_layer {
@@ -53,9 +53,10 @@
         compatible = "zmk,keymap";
 
         /***********************
-         * LAYER 0: Base (Default)
-         * Y/Z getauscht: links Y, rechts Z (QWERTZ)
-         * Mausbuttons: MB4/MB5 in der Mitte
+         * LAYER 0: Base
+         * (Y/Z getauscht: QWERTZ)
+         * Mitte: MB4/MB5
+         * Encoder drehen: Maus (X + Y)
          ***********************/
         base_layer: base {
             bindings = <
@@ -66,27 +67,29 @@
                                     &kp LALT   &kp LGUI   &mo 1     &kp SPACE      &kp RET     &mo 2      &kp DEL    &kp RALT
             >;
 
-            /* sensor-bindings wird im jeweiligen Half-Overlay gesetzt */
+            /* 2 Sensoren: left_encoder -> X, right_encoder -> Y */
+            sensor-bindings = <&enc_mouse_h &enc_mouse_v>;
         };
 
         /***********************
          * LAYER 1: Lower (Numpad + Media)
+         * Encoder drehen: Maus (X + Y)
          ***********************/
         lower_layer: lower {
             bindings = <
-                &trans      &trans      &trans      &kp C_MUTE    &kp C_VOL_DN  &kp C_VOL_UP                 &trans     &kp KP_N7      &kp KP_N8      &kp KP_N9      &kp KP_PLUS     &kp APOS
-                &trans      &trans      &trans      &trans        &trans        &trans                      &trans     &kp KP_N4      &kp KP_N5      &kp KP_N6      &kp KP_MINUS    &kp GRAVE
-                &trans      &trans      &trans      &trans        &trans        &trans                      &trans     &kp KP_N1      &kp KP_N2      &kp KP_N3      &kp KP_MULTIPLY &trans
-                &kp CAPS    &trans      &trans      &trans        &trans        &trans        &mkp MB4 &mkp MB5     &trans     &kp KP_N0      &kp KP_EQUAL   &kp KP_DOT      &kp KP_DIVIDE   &kp BSLH
-                                        &trans      &trans      &trans         &trans        &trans       &trans      &trans        &trans
+                &trans      &trans      &trans      &kp C_MUTE    &kp C_VOL_DN  &kp C_VOL_UP                 &trans     &kp KP_N7      &kp KP_N8      &kp KP_N9       &kp KP_PLUS      &kp APOS
+                &trans      &trans      &trans      &trans        &trans        &trans                      &trans     &kp KP_N4      &kp KP_N5      &kp KP_N6       &kp KP_MINUS     &kp GRAVE
+                &trans      &trans      &trans      &trans        &trans        &trans                      &trans     &kp KP_N1      &kp KP_N2      &kp KP_N3       &kp KP_MULTIPLY  &trans
+                &kp CAPS    &trans      &trans      &trans        &trans        &trans        &mkp MB4 &mkp MB5     &trans     &kp KP_N0      &kp KP_EQUAL    &kp KP_DOT       &kp KP_DIVIDE    &kp BSLH
+                                        &trans      &trans      &trans         &trans        &trans       &trans      &trans         &trans
             >;
 
-            /* sensor-bindings wird im jeweiligen Half-Overlay gesetzt */
+            sensor-bindings = <&enc_mouse_h &enc_mouse_v>;
         };
 
         /***********************
          * LAYER 2: Upper (F-Keys + Pfeile)
-         * Encoder = Lautstärke
+         * Encoder: Lautstärke (beide)
          ***********************/
         upper_layer: upper {
             bindings = <
@@ -97,12 +100,12 @@
                                         &trans      &trans      &trans       &trans        &trans       &trans      &trans     &trans
             >;
 
-            sensor-bindings = <&enc_vol>;
+            sensor-bindings = <&enc_vol &enc_vol>;
         };
 
         /***********************
          * LAYER 3: Adjust (BT + RGB)
-         * Encoder = Lautstärke
+         * Encoder: Lautstärke (beide)
          ***********************/
         adjust_layer: adjust {
             bindings = <
@@ -113,7 +116,7 @@
                                                      &trans         &trans           &trans           &trans               &trans  &trans  &trans  &trans
             >;
 
-            sensor-bindings = <&enc_vol>;
+            sensor-bindings = <&enc_vol &enc_vol>;
         };
     };
 };
