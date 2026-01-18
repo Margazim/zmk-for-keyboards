@@ -34,11 +34,4 @@
         compatible = "zmk,battery-nrf-vddh";
     };
 };
-&base_layer {
-    sensor-bindings = <&enc_mouse_h>;
-};
-
-&lower_layer {
-    sensor-bindings = <&enc_mouse_h>;
-};
 
