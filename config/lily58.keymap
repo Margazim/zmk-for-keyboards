@@ -7,21 +7,11 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/ext_power.h>
 #include <dt-bindings/zmk/rgb.h>
+
+/* Mouse / pointing */
 #include <dt-bindings/zmk/pointing.h>
 
-/* Pro Half unterschiedliche Encoder-Achse:
- *  - Left: horizontal (X)
- *  - Right: vertikal (Y)
- */
-#if defined(CONFIG_SHIELD_LILY58_LEFT)
-  #define ENC_MOUSE_BINDING &enc_mouse_h
-#elif defined(CONFIG_SHIELD_LILY58_RIGHT)
-  #define ENC_MOUSE_BINDING &enc_mouse_v
-#else
-  #define ENC_MOUSE_BINDING &enc_mouse_h
-#endif
-
-/ {
+ / {
     conditional_layers {
         compatible = "zmk,conditional-layers";
         adjust_layer {
@@ -31,23 +21,31 @@
     };
 
     behaviors {
-        /* Maus horizontal (X): +600 / -600 */
+        /*
+         * Encoder Mausbewegung:
+         *  - horizontal: X +600 / -600
+         *  - vertikal:   Y +600 / -600
+         *
+         * Hinweis:
+         * mmv erwartet 32-bit:
+         *   Low 16 bit  = X (signed)
+         *   High 16 bit = Y (signed)
+         */
         enc_mouse_h: enc_mouse_h {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
             tap-ms = <20>;
-            bindings = <&mmv (0x00000258)>, <&mmv (0x0000FDA8)>;
+            bindings = <&mmv 0x00000258>, <&mmv 0x0000FDA8>;
         };
 
-        /* Maus vertikal (Y): +600 / -600 */
         enc_mouse_v: enc_mouse_v {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
             tap-ms = <20>;
-            bindings = <&mmv (0x02580000)>, <&mmv (0xFDA80000)>;
+            bindings = <&mmv 0x02580000>, <&mmv 0xFDA80000>;
         };
 
-        /* Lautstärke (für Upper/Config) */
+        /* Lautstärke */
         enc_vol: enc_vol {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
@@ -60,69 +58,68 @@
 
         /***********************
          * LAYER 0: Default
-         * QWERTZ wie in Screenshot
-         * Encoder drehen = Maus bewegen
-         * Encoder Tasten (Mitte) = Mausklick links/rechts
          ***********************/
         base_layer: base {
             bindings = <
-                &kp ESC    &kp N1   &kp N2   &kp N3    &kp N4    &kp N5                        &kp N6   &kp N7   &kp N8    &kp N9   &kp N0    &kp BSPC
-                &kp TAB    &kp Q    &kp W    &kp E     &kp R     &kp T                         &kp Z    &kp U    &kp I     &kp O    &kp P     &kp LBKT
-                &kp LCTRL  &kp A    &kp S    &kp D     &kp F     &kp G                         &kp H    &kp J    &kp K     &kp L    &kp SEMI  &kp RBKT
-                &kp LSHFT  &kp Y    &kp X    &kp C     &kp V     &kp B    &mkp (0x01)  &mkp (0x02)  &kp N    &kp M    &kp COMMA &kp DOT  &kp FSLH  &kp RSHFT
-                                   &kp LALT &kp LGUI  &mo 1     &kp SPACE    &kp RET          &mo 2     &kp DEL  &kp RALT
+                &kp ESC     &kp N1     &kp N2     &kp N3     &kp N4     &kp N5                         &kp N6     &kp N7     &kp N8     &kp N9     &kp N0     &kp BSPC
+                &kp TAB     &kp Q      &kp W      &kp E      &kp R      &kp T                          &kp Y      &kp U      &kp I      &kp O      &kp P      &kp LBKT
+                &kp LCTRL   &kp A      &kp S      &kp D      &kp F      &kp G                          &kp H      &kp J      &kp K      &kp L      &kp SEMI   &kp RBKT
+                &kp LSHFT   &kp Z      &kp X      &kp C      &kp V      &kp B      &mkp MB4    &mkp MB5     &kp N      &kp M      &kp COMMA  &kp DOT    &kp FSLH   &kp RSHFT
+                                    &kp LALT   &kp LGUI   &mo 1     &kp SPACE      &kp RET     &mo 2      &kp DEL    &kp RALT
             >;
 
-            sensor-bindings = <ENC_MOUSE_BINDING>;
+            /*
+             * sensor-bindings NICHT hier setzen!
+             * -> wird pro Half im lily58_left.overlay / lily58_right.overlay gesetzt:
+             *    links  = &enc_mouse_h
+             *    rechts = &enc_mouse_v
+             */
         };
 
         /***********************
          * LAYER 1: Lower
-         * wie Screenshot: Mute/Vol + Numpad
-         * Encoder drehen = Maus bewegen
-         * Encoder Tasten = Mausklick
          ***********************/
         lower_layer: lower {
             bindings = <
-                &trans   &trans    &trans    &kp C_MUTE     &kp C_VOL_DN  &kp C_VOL_UP                 &trans    &kp KP_N7   &kp KP_N8    &kp KP_N9    &kp KP_PLUS   &kp APOS
-                &trans   &trans    &trans    &trans         &trans        &trans                       &trans    &kp KP_N4   &kp KP_N5    &kp KP_N6    &kp KP_MINUS  &kp GRAVE
-                &trans   &trans    &trans    &trans         &trans        &trans                       &trans    &kp KP_N1   &kp KP_N2    &kp KP_N3    &kp KP_ASTER  &trans
-                &kp CAPS &trans    &trans    &trans         &trans        &trans    &mkp (0x01)  &mkp (0x02)  &trans    &kp KP_N0   &kp KP_EQUAL &kp KP_DOT   &kp KP_SLASH  &kp BSLH
-                                   &trans   &trans    &trans            &trans       &trans              &trans    &trans      &trans
+                &trans      &trans      &trans      &kp K_MUTE   &kp C_VOL_DN &kp C_VOL_UP                 &trans     &kp KP_N7   &kp KP_N8   &kp KP_N9   &kp KP_PLUS   &kp APOS
+                &trans      &trans      &trans      &trans       &trans       &trans                      &trans     &kp KP_N4   &kp KP_N5   &kp KP_N6   &kp KP_MINUS  &kp GRAVE
+                &trans      &trans      &trans      &trans       &trans       &trans                      &trans     &kp KP_N1   &kp KP_N2   &kp KP_N3   &kp KP_MULTIPLY &trans
+                &kp CAPS    &trans      &trans      &trans       &trans       &trans       &trans     &trans      &trans     &kp KP_N0   &kp EQUAL   &kp KP_DOT  &kp KP_DIVIDE &kp BSLH
+                                        &trans      &trans      &trans       &trans       &trans      &trans      &trans     &trans
             >;
 
-            sensor-bindings = <ENC_MOUSE_BINDING>;
+            /*
+             * sensor-bindings ebenfalls NICHT hier:
+             * -> per Half im Overlay wie Base setzen (Mouse H/V)
+             */
         };
 
         /***********************
          * LAYER 2: Upper
-         * wie Screenshot: F-Keys + Pfeile + PrSc
-         * Encoder = Lautstärke
          ***********************/
         upper_layer: upper {
             bindings = <
-                &kp F1   &kp F2    &kp F3    &kp F4    &kp F5   &kp F6                      &kp F7   &kp F8   &kp F9   &kp F10  &kp F11   &kp F12
-                &trans   &trans    &kp UP    &trans    &trans   &trans                      &trans   &trans   &trans   &trans   &trans    &kp PSCRN
-                &trans   &kp LEFT  &kp DOWN  &kp RIGHT &trans   &trans                      &trans   &trans   &trans   &trans   &trans    &trans
-                &trans   &trans    &trans    &trans    &trans   &trans    &mkp (0x01)  &mkp (0x02)  &trans   &trans   &trans   &trans   &trans    &trans
-                                   &trans   &trans    &trans             &trans      &trans             &trans   &trans    &trans
+                &kp F1      &kp F2      &kp F3      &kp F4      &kp F5      &kp F6                         &kp F7     &kp F8     &kp F9     &kp F10    &kp F11    &kp F12
+                &trans      &trans      &kp UP      &trans      &trans      &trans                        &trans     &trans     &trans     &trans     &trans     &kp PSCRN
+                &trans      &kp LEFT    &kp DOWN    &kp RIGHT   &trans      &trans                        &trans     &trans     &trans     &trans     &trans     &trans
+                &trans      &trans      &trans      &trans      &trans      &trans        &trans    &trans      &trans     &trans     &trans     &trans     &trans     &trans
+                                        &trans      &trans      &trans      &trans       &trans      &trans      &trans     &trans
             >;
 
+            /* Upper: Encoder = Lautstärke (pro Half jeweils 1 Encoder) */
             sensor-bindings = <&enc_vol>;
         };
 
         /***********************
-         * LAYER 3: Config (Adjust)
-         * BT + RGB + Power wie früher
-         * Encoder = Lautstärke
+         * LAYER 3: Config / Adjust
          ***********************/
         adjust_layer: adjust {
             bindings = <
-                &bt BT_CLR         &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3     &bt BT_SEL 4                         &trans  &trans  &trans  &trans  &trans  &trans
-                &ext_power EP_TOG  &rgb_ug RGB_BRI  &rgb_ug RGB_SPI  &rgb_ug RGB_HUI  &rgb_ug RGB_SAI  &rgb_ug RGB_EFF                      &trans  &trans  &trans  &trans  &trans  &trans
-                &trans             &rgb_ug RGB_BRD  &rgb_ug RGB_SPD  &rgb_ug RGB_HUD  &rgb_ug RGB_SAD  &trans                               &trans  &trans  &trans  &trans  &trans  &trans
-                &trans             &trans           &trans           &trans           &trans           &trans     &rgb_ug RGB_TOG    &trans      &trans  &trans  &trans  &trans  &trans  &trans
-                                                     &trans         &trans           &trans           &trans     &trans                           &trans  &trans  &trans
+                &bt BT_CLR         &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3     &bt BT_SEL 4        &trans &trans &trans &trans &trans &trans
+                &ext_power EP_TOG  &rgb_ug RGB_BRI  &rgb_ug RGB_SAI   &rgb_ug RGB_HUI  &rgb_ug RGB_EFF  &rgb_ug RGB_SPI     &trans &trans &trans &trans &trans &trans
+                &trans             &rgb_ug RGB_BRD  &rgb_ug RGB_SAD   &rgb_ug RGB_HUD  &trans           &rgb_ug RGB_SPD     &trans &trans &trans &trans &trans &trans
+                &trans             &trans           &trans           &trans           &trans           &trans               &rgb_ug RGB_TOG &trans &trans &trans &trans &trans &trans &trans
+                                                     &trans          &trans          &trans           &trans               &trans  &trans &trans &trans
             >;
 
             sensor-bindings = <&enc_vol>;
