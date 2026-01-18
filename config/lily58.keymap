@@ -5,7 +5,6 @@
 #include <dt-bindings/zmk/rgb.h>
 
 /* Mouse / pointing */
-#define ZMK_POINTING_DEFAULT_MOVE_VAL 2500
 #include <dt-bindings/zmk/pointing.h>
 
  / {
