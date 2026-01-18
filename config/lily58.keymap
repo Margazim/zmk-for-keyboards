@@ -22,54 +22,6 @@
         };
     };
 
-    /*
-     * US-International Umlaut Makros:
-     *   ä = " + a
-     *   ö = " + o
-     *   ü = " + u
-     *   Ä/Ö/Ü entsprechend mit Shift
-     *   ß = AltGr+S (RALT+S)  (je nach OS/Layout ggf. anpassen)
-     */
-    macros {
-        de_ae: de_ae {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp DQT &kp A>;
-        };
-        de_oe: de_oe {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp DQT &kp O>;
-        };
-        de_ue: de_ue {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp DQT &kp U>;
-        };
-
-        de_AE: de_AE {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp DQT &kp LSFT &kp A &kp LSFT>;
-        };
-        de_OE: de_OE {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp DQT &kp LSFT &kp O &kp LSFT>;
-        };
-        de_UE: de_UE {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp DQT &kp LSFT &kp U &kp LSFT>;
-        };
-
-        de_ss: de_ss {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp RALT &kp S>;
-        };
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
@@ -78,24 +30,20 @@
          ***********************/
         default_layer {
             // ------------------------------------------------------------------------------------------------------------
-            // |  ESC  |  1  |  2  |  3  |  4  |  5  |                   |  6  |  7  |  8  |  9  |  0  | BSPC |
-            // |  TAB  |  Q  |  W  |  E  |  R  |  T  |                   |  Y  |  U  |  I  |  O  |  P  |  {   |
-            // | CTRL  |  A  |  S  |  D  |  F  |  G  |                   |  H  |  J  |  K  |  L  |  ;  |  }   |
-            // | SHIFT |  Y  |  X  |  C  |  V  |  B  | ENC_L |  ENC_R     |  N  |  M  |  ,  |  .  |  /  |SHIFT|
-            //                    | ALT | GUI |LOWER| SPACE |   ENTER    |UPPER| DEL | ALT |
+            // |  ESC  |  1  |  2  |  3  |  4  |  5  |                   |  6  |  7  |  8  |  9  |  0  |  `   |
+            // |  TAB  |  Q  |  W  |  E  |  R  |  T  |                   |  Y  |  U  |  I  |  O  |  P  |  -   |
+            // | CTRL  |  A  |  S  |  D  |  F  |  G  |                   |  H  |  J  |  K  |  L  |  ;  |  '   |
+            // | SHIFT |  Z  |  X  |  C  |  V  |  B  | ENC_L | ENC_R      |  N  |  M  |  ,  |  .  |  /  |SHIFT|
+            //                    | ALT | GUI |LOWER| SPACE |  ENTER     |UPPER| BSPC| GUI |
             bindings = <
-                &kp ESC    &kp N1  &kp N2   &kp N3   &kp N4   &kp N5                                  &kp N6   &kp N7   &kp N8   &kp N9   &kp N0   &kp BSPC
-                &kp TAB    &kp Q   &kp W    &kp E    &kp R    &kp T                                   &kp Y    &kp U    &kp I    &kp O    &kp P    &kp LBKT
-                &kp LCTRL  &kp A   &kp S    &kp D    &kp F    &kp G                                   &kp H    &kp J    &kp K    &kp L    &kp SEMI &kp RBKT
-                &kp LSHFT  &kp Y   &kp X    &kp C    &kp V    &kp B    &kp MB1        &kp MB1         &kp N    &kp M    &kp COMMA &kp DOT  &kp FSLH &kp RSHFT
-                                   &kp LALT &kp LGUI &mo 1    &kp SPACE &kp RET       &mo 2           &kp DEL  &kp RALT
+                &kp ESC    &kp N1  &kp N2   &kp N3   &kp N4   &kp N5                                  &kp N6   &kp N7   &kp N8   &kp N9   &kp N0   &kp GRAVE
+                &kp TAB    &kp Q   &kp W    &kp E    &kp R    &kp T                                   &kp Y    &kp U    &kp I    &kp O    &kp P    &kp MINUS
+                &kp LCTRL  &kp A   &kp S    &kp D    &kp F    &kp G                                   &kp H    &kp J    &kp K    &kp L    &kp SEMI &kp SQT
+                &kp LSHFT  &kp Z   &kp X    &kp C    &kp V    &kp B    &kp MB1        &kp MB1         &kp N    &kp M    &kp COMMA &kp DOT  &kp FSLH &kp RSHFT
+                                   &kp LALT &kp LGUI &mo 1    &kp SPACE &kp RET       &mo 2           &kp BSPC &kp RGUI
             >;
 
-            /*
-             * Sensor order = Encoder order (wie dein Board es liefert)
-             *   Sensor 0 (links): Maus horizontal (rechts/links)
-             *   Sensor 1 (rechts): Maus vertikal (runter/hoch)
-             */
+            // Encoder: links = Maus horizontal, rechts = Maus vertikal
             sensor-bindings = <
                 &inc_dec_kp C_MS_RIGHT C_MS_LEFT
                 &inc_dec_kp C_MS_DOWN  C_MS_UP
@@ -104,27 +52,24 @@
 
         /***********************
          * LAYER 1: Lower
-         * + Umlaute (US-International via Makros)
+         * Umlaute (US-International via AltGr)
          ***********************/
         lower_layer {
             // ------------------------------------------------------------------------------------------------------------
-            // |      |      |      |      | MUTE | VOL- |              |      |  7  |  8  |  9  |  +  |  .  |
-            // |      |  ä   |  ö   |  ü   |      | VOL+ |              |      |  4  |  5  |  6  |  -  |  ,  |
-            // |      |  Ä   |  Ö   |  Ü   |      |      |              |      |  1  |  2  |  3  |  *  |     |
-            // | CAPS |  ß   |      |      |      |      | ENC_L|ENC_R  |      |  0  |  =  |     |  /  |  \  |
+            // |      |      |      |      | MUTE | VOL- |              |      |  7  |  8  |  9  |  +  |      |
+            // |      |  ä   |  ö   |  ü   |      | VOL+ |              |      |  4  |  5  |  6  |  -  |      |
+            // |      |  Ä   |  Ö   |  Ü   |      |      |              |      |  1  |  2  |  3  |  *  |      |
+            // | CAPS |  ß   |      |      |      |      | ENC_L|ENC_R  |      |  0  |  =  |      |  /  |  \   |
             //                    |      |      |      |      |        |      |      |      |
             bindings = <
-                &trans     &trans     &trans     &trans       &kp C_MUTE &kp C_VOL_DN                              &trans     &kp KP_N7  &kp KP_N8   &kp KP_N9   &kp KP_PLUS  &kp KP_DOT
-                &trans     &de_ae     &de_oe     &de_ue       &trans     &kp C_VOL_UP                              &trans     &kp KP_N4  &kp KP_N5   &kp KP_N6   &kp KP_MINUS &kp KP_COMMA
-                &trans     &de_AE     &de_OE     &de_UE       &trans     &trans                                   &trans     &kp KP_N1  &kp KP_N2   &kp KP_N3   &kp KP_ASTER &trans
-                &kp CAPS   &de_ss     &trans     &trans       &trans     &trans    &kp MB1          &kp MB1        &trans     &kp KP_N0  &kp KP_EQUAL &trans       &kp KP_SLASH &kp KP_BSLH
-                                   &trans     &trans     &trans       &trans     &trans            &trans         &trans     &trans
+                &trans     &trans              &trans              &trans              &kp C_MUTE &kp C_VOL_DN                              &trans     &kp KP_N7  &kp KP_N8   &kp KP_N9   &kp KP_PLUS  &trans
+                &trans     &kp RALT(Y)          &kp RALT(P)          &kp RALT(LBKT)       &trans     &kp C_VOL_UP                              &trans     &kp KP_N4  &kp KP_N5   &kp KP_N6   &kp KP_MINUS &trans
+                &trans     &kp RALT(LSFT(Y))     &kp RALT(LSFT(P))     &kp RALT(LSFT(LBKT)) &trans     &trans                                   &trans     &kp KP_N1  &kp KP_N2   &kp KP_N3   &kp KP_ASTER &trans
+                &kp CAPS   &kp RALT(S)          &trans              &trans              &trans     &trans    &kp MB1          &kp MB1        &trans     &kp KP_N0  &kp KP_EQUAL &trans       &kp KP_SLASH &kp KP_BSLH
+                                   &trans     &trans              &trans              &trans     &trans            &trans         &trans     &trans
             >;
 
-            /*
-             * Lower: lasse Encoder wie Default (Maus bewegen)
-             * (Wenn du willst, kann Lower z.B. Scrollen werden.)
-             */
+            // Encoder wie Default (Maus bewegen)
             sensor-bindings = <
                 &inc_dec_kp C_MS_RIGHT C_MS_LEFT
                 &inc_dec_kp C_MS_DOWN  C_MS_UP
@@ -150,11 +95,7 @@
                                    &trans     &trans     &trans     &trans     &trans            &trans         &trans     &trans
             >;
 
-            /*
-             * Upper: beide Encoder regeln Lautstärke
-             *   Sensor 0 (links): Vol+ / Vol-
-             *   Sensor 1 (rechts): Vol+ / Vol-
-             */
+            // Upper: beide Encoder = Lautstärke
             sensor-bindings = <
                 &inc_dec_kp C_VOL_UP C_VOL_DN
                 &inc_dec_kp C_VOL_UP C_VOL_DN
@@ -162,15 +103,15 @@
         };
 
         /***********************
-         * LAYER 3: Config (Adjust)
+         * LAYER 3: Adjust
          ***********************/
         adjust_layer {
             // ----------------------------------------------------------------------------------------------------------------------------
-            // | BTCLR  |  BT1  |  BT2  |  BT3  |  BT4  |  BT5  |       |      |      |      |      |      |      |
-            // | EXTPWR | RGB-  | RGB+  | SAT-  | SAT+  | EFF   |       |      |      |      |      |      |      |
-            // |        | BRI-  | BRI+  |       |       |       |       |      |      |      |      |      |      |
-            // |        |       |       |       |       |       |       |      |      |      |      |      |      |
-            //                     |     |      |       |      |       |       |      |      |      |      |
+            // | BTCLR | BT1 | BT2 | BT3 | BT4 | BT5 |                  |      |      |      |      |      |      |
+            // | EXTPW | HUD | HUI | SAD | SAI | EFF |                  |      |      |      |      |      |      |
+            // |       | BRD | BRI |     |     |     |                  |      |      |      |      |      |      |
+            // |       |     |     |     |     |     | ENC_L|ENC_R       |      |      |      |      |      |      |
+            //                    |     |     |     |     |             |      |      |      |
             bindings = <
                 &bt BT_CLR        &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4                            &trans &trans &trans &trans &trans &trans
                 &ext_power EP_TOG &rgb_ug RGB_HUD &rgb_ug RGB_HUI &rgb_ug RGB_SAD &rgb_ug RGB_SAI &rgb_ug RGB_EFF                         &trans &trans &trans &trans &trans &trans
@@ -179,7 +120,6 @@
                                    &trans         &trans         &trans         &trans          &trans            &trans         &trans &trans &trans &trans
             >;
 
-            /* Config: Encoder auf Lautstärke gelassen (praktisch). */
             sensor-bindings = <
                 &inc_dec_kp C_VOL_UP C_VOL_DN
                 &inc_dec_kp C_VOL_UP C_VOL_DN
