@@ -52,7 +52,7 @@
 
         /***********************
          * LAYER 1: Lower
-         * Umlaute (US-International via AltGr)
+         * Umlaute/ß via US-International + AltGr (Right Alt = RA())
          ***********************/
         lower_layer {
             // ------------------------------------------------------------------------------------------------------------
@@ -62,11 +62,11 @@
             // | CAPS |  ß   |      |      |      |      | ENC_L|ENC_R  |      |  0  |  =  |      |  /  |  \   |
             //                    |      |      |      |      |        |      |      |      |
             bindings = <
-                &trans     &trans              &trans              &trans              &kp C_MUTE &kp C_VOL_DN                              &trans     &kp KP_N7  &kp KP_N8   &kp KP_N9   &kp KP_PLUS  &trans
-                &trans     &kp RALT(Y)          &kp RALT(P)          &kp RALT(LBKT)       &trans     &kp C_VOL_UP                              &trans     &kp KP_N4  &kp KP_N5   &kp KP_N6   &kp KP_MINUS &trans
-                &trans     &kp RALT(LSFT(Y))     &kp RALT(LSFT(P))     &kp RALT(LSFT(LBKT)) &trans     &trans                                   &trans     &kp KP_N1  &kp KP_N2   &kp KP_N3   &kp KP_ASTER &trans
-                &kp CAPS   &kp RALT(S)          &trans              &trans              &trans     &trans    &kp MB1          &kp MB1        &trans     &kp KP_N0  &kp KP_EQUAL &trans       &kp KP_SLASH &kp KP_BSLH
-                                   &trans     &trans              &trans              &trans     &trans            &trans         &trans     &trans
+                &trans     &trans        &trans        &trans        &kp C_MUTE &kp C_VOL_DN                              &trans     &kp KP_N7  &kp KP_N8   &kp KP_N9   &kp KP_PLUS  &trans
+                &trans     &kp RA(Y)      &kp RA(P)      &kp RA(LBKT)  &trans     &kp C_VOL_UP                              &trans     &kp KP_N4  &kp KP_N5   &kp KP_N6   &kp KP_MINUS &trans
+                &trans     &kp LS(RA(Y))  &kp LS(RA(P))  &kp LS(RA(LBKT)) &trans  &trans                                   &trans     &kp KP_N1  &kp KP_N2   &kp KP_N3   &kp KP_ASTER &trans
+                &kp CAPS   &kp RA(S)      &trans        &trans        &trans     &trans    &kp MB1          &kp MB1        &trans     &kp KP_N0  &kp KP_EQUAL &trans       &kp KP_SLASH &kp KP_BSLH
+                                   &trans     &trans        &trans        &trans     &trans            &trans         &trans     &trans
             >;
 
             // Encoder wie Default (Maus bewegen)
