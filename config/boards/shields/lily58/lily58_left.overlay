@@ -20,6 +20,11 @@
 &left_encoder {
     status = "okay";
 };
+
+&sensors {
+    sensors = <&left_encoder>;
+};
+
 / {
     chosen {
       zmk,battery = &vbatt;
@@ -29,3 +34,11 @@
         compatible = "zmk,battery-nrf-vddh";
     };
 };
+&base_layer {
+    sensor-bindings = <&enc_mouse_h>;
+};
+
+&lower_layer {
+    sensor-bindings = <&enc_mouse_h>;
+};
+
