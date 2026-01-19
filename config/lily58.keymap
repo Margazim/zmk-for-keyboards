@@ -79,7 +79,10 @@
                             &trans     &trans  &trans  &trans        &trans      &trans  &trans  &trans
             >;
 
-            sensor-bindings = < &rot_kp C_VOL_UP C_VOL_DN      &trans >;
+            sensor-bindings = <
+				&rot_kp  C_VOL_UP   C_VOL_DN
+				&rot_msc SCRL_RIGHT SCRL_LEFT
+			>;
         };
 
         adjust_layer: adjust {
