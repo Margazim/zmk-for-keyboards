@@ -34,4 +34,19 @@
         compatible = "zmk,battery-nrf-vddh";
     };
 };
+/* LEFT half: hat nur 1 Encoder-Sensor -> genau 1 Binding pro Layer */
+&base_layer {
+    /* links: vertical scroll */
+    sensor-bindings = < &rot_msc SCRL_UP SCRL_DOWN >;
+};
+
+&lower_layer {
+    /* links: Maus horizontal */
+    sensor-bindings = < &rot_mmv MOVE_RIGHT MOVE_LEFT >;
+};
+
+&upper_layer {
+    /* links: Lautstärke */
+    sensor-bindings = < &rot_kp C_VOL_UP C_VOL_DN >;
+};
 
