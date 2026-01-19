@@ -46,14 +46,6 @@
         };
     };
 
-    &msc {
-        time-to-max-speed-ms = <0>;
-    };
-
-    &mmv {
-        time-to-max-speed-ms = <0>;
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
@@ -112,4 +104,12 @@
             >;
         };
     };
+};
+
+&msc {
+    time-to-max-speed-ms = <0>;
+};
+
+&mmv {
+    time-to-max-speed-ms = <0>;
 };
