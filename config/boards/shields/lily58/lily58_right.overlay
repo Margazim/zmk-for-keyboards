@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2020 Pete Johanson
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 #include "lily58.dtsi"
 
 &default_transform {
@@ -14,20 +20,21 @@
         , <&pro_micro 19 GPIO_ACTIVE_HIGH>
         ;
 };
-
-&left_encoder { status = "disabled"; };
+&left_encoder { status = "disabled"; };  /* sicherheitshalber */
 &right_encoder { status = "okay"; };
 
 &sensors {
     sensors = <&left_encoder &right_encoder>;
 };
 
+
 / {
     chosen {
-        zmk,battery = &vbatt;
+      zmk,battery = &vbatt;
     };
 
     vbatt: vbatt {
         compatible = "zmk,battery-nrf-vddh";
     };
 };
+
