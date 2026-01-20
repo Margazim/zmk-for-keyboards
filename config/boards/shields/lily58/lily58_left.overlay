@@ -22,6 +22,13 @@
 
 &sensors {
     sensors = <&left_encoder &right_encoder>;
+	left_cfg {
+        triggers-per-rotation = <20>;
+    };
+
+    right_cfg {
+        triggers-per-rotation = <20>;
+    };
 };
 
 / {
